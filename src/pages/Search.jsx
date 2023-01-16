@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import CardAlbum from '../components/CardAlbum';
+import LoadScreen from '../components/LoadScreen';
 
 class Search extends Component {
   state = {
     searchInput: '',
     isDisabled: true,
+    isLoading: false,
+    title: '',
+    arraySearch: [],
   };
 
   onInputChange = ({ target }) => {
@@ -22,8 +28,38 @@ class Search extends Component {
     }
   };
 
+  onButtonClick = async () => {
+    const { searchInput } = this.state;
+    this.setState({
+      searchInput: '',
+      isLoading: true,
+    });
+    const collectionSave = await searchAlbumsAPI(searchInput);
+    if (collectionSave.length > 0) {
+      this.setState({
+        isLoading: false,
+        title: `Resultado de álbuns de: ${searchInput}`,
+        arraySearch: collectionSave,
+      });
+    } else {
+      this.setState({
+        isLoading: false,
+        title: 'Nenhum álbum foi encontrado',
+        arraySearch: [],
+      });
+    }
+  };
+
   render() {
-    const { searchInput, isDisabled } = this.state;
+    const { searchInput, isDisabled, isLoading, title, arraySearch } = this.state;
+    if (isLoading) {
+      return (
+        <div>
+          <Header />
+          <LoadScreen />
+        </div>
+      );
+    }
     return (
       <div data-testid="page-search">
         <Header />
@@ -41,12 +77,21 @@ class Search extends Component {
             type="button"
             data-testid="search-artist-button"
             disabled={ isDisabled }
+            onClick={ this.onButtonClick }
           >
             Search
           </button>
 
         </form>
+        <h1>{ title }</h1>
+        {
+          arraySearch
+            .map((album, index) => (<CardAlbum
+              collectionSave={ album }
+              key={ index }
+            />))
 
+        }
       </div>
     );
   }
