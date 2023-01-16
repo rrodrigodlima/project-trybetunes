@@ -11,9 +11,16 @@ class Album extends Component {
     musics: [],
   };
 
-  updateMusics = async (albumID) => {
-    const response = await getMusics(albumID);
-    console.log(response);
+  componentDidMount() {
+    this.updateMusics();
+  }
+
+  updateMusics = async () => {
+    // const response = await getMusics(albumID);
+    const { match } = this.props;
+    const { params } = match;
+    const { id } = params;
+    const response = await getMusics(id);
     this.setState({
       name: response[0].artistName,
       album: response[0].collectionName,
@@ -22,11 +29,8 @@ class Album extends Component {
   };
 
   render() {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
     const { name, album, musics } = this.state;
-    this.updateMusics(id);
+    // this.updateMusics(id);
 
     return (
       <div data-testid="page-album">
@@ -39,6 +43,8 @@ class Album extends Component {
               key={ Date.now() * Math.random() }
               trackName={ music.trackName }
               previewUrl={ music.previewUrl }
+              trackId={ music.trackId }
+              music={ music }
             />
           ))
         }
