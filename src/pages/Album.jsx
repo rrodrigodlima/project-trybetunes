@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+import LoadScreen from '../components/LoadScreen';
 
 class Album extends Component {
   state = {
@@ -23,7 +25,7 @@ class Album extends Component {
     this.setState({ loading: true }, async () => {
       const favoriteList = await getFavoriteSongs();
       this.setState({
-        favoriteSongs: favoriteList.map((favorite) => favorite.trackId), loading: false
+        favoriteSongs: favoriteList.map((favorite) => favorite.trackId), loading: false,
       });
     });
   };
@@ -42,9 +44,16 @@ class Album extends Component {
   };
 
   render() {
-    const { name, album, musics, favoriteSongs } = this.state;
-    // this.updateMusics(id);
+    const { name, album, musics, favoriteSongs, loading, redirect } = this.state;
+    if (loading) {
+      return (
+        <div>
+          <LoadScreen />
 
+          { redirect && <Redirect to="/search" /> }
+        </div>
+      );
+    }
     return (
       <div data-testid="page-album">
         <Header />
