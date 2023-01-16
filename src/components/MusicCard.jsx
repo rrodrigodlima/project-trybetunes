@@ -17,7 +17,7 @@ class MusicCard extends Component {
   };
 
   render() {
-    const { trackName, previewUrl, trackId } = this.props;
+    const { trackName, previewUrl, trackId, checked } = this.props;
     const { isLoading } = this.state;
     return (
       <div>
@@ -38,6 +38,7 @@ class MusicCard extends Component {
             id="favorite"
             data-testid={ `checkbox-music-${trackId}` }
             onChange={ () => this.handleChange() }
+            checked={ checked }
           />
           Favorito
         </label>
@@ -51,6 +52,7 @@ MusicCard.propTypes = {
   previewUrl: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
   music: PropTypes.string.isRequired,
+  checked: PropTypes.bool.isRequired,
 };
 
 export default MusicCard;
