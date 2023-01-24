@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes, { bool } from 'prop-types';
+import PropTypes, { bool, func } from 'prop-types';
 import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 import LoadScreen from './LoadScreen';
 
@@ -32,7 +32,7 @@ class MusicCard extends Component {
   };
 
   render() {
-    const { trackName, previewUrl, trackId } = this.props;
+    const { music: { trackId, trackName, previewUrl }, clickBtn } = this.props;
     const { isLoading, musicsFavorite } = this.state;
     return (
       <div>
@@ -55,8 +55,9 @@ class MusicCard extends Component {
             data-testid={ `checkbox-music-${trackId}` }
             onChange={ this.HandleInput }
             checked={ musicsFavorite }
+            onClick={ clickBtn }
           />
-          Favorito
+          Favorita
         </label>
       </div>
     );
@@ -73,6 +74,7 @@ MusicCard.propTypes = {
     previewUrl: PropTypes.string,
   }).isRequired,
   musicsFavorite: bool.isRequired,
+  clickBtn: func.isRequired,
 };
 
 export default MusicCard;

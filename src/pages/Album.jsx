@@ -46,6 +46,7 @@ class Album extends Component {
               trackId={ music.trackId }
               music={ music }
               musicsFavorite={ musicsFavorite.includes(music.trackId) }
+              clickBtn={ () => {} }
             />
           ))
         }
