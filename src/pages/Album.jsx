@@ -3,34 +3,34 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   state = {
     name: '',
     album: '',
     musics: [],
+    musicsFavorite: undefined,
   };
 
-  componentDidMount() {
-    this.updateMusics();
-  }
-
-  updateMusics = async () => {
-    // const response = await getMusics(albumID);
+  async componentDidMount() {
     const { match } = this.props;
     const { params } = match;
     const { id } = params;
     const response = await getMusics(id);
+    let musicsFavorite = await getFavoriteSongs();
+
+    musicsFavorite = musicsFavorite.map((music) => music.trackId);
     this.setState({
       name: response[0].artistName,
       album: response[0].collectionName,
       musics: response.filter((music, index) => index > 0),
+      musicsFavorite,
     });
-  };
+  }
 
   render() {
-    const { name, album, musics } = this.state;
-    // this.updateMusics(id);
+    const { name, album, musics, musicsFavorite } = this.state;
 
     return (
       <div data-testid="page-album">
@@ -45,6 +45,7 @@ class Album extends Component {
               previewUrl={ music.previewUrl }
               trackId={ music.trackId }
               music={ music }
+              musicsFavorite={ musicsFavorite.includes(music.trackId) }
             />
           ))
         }
