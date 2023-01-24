@@ -34,12 +34,15 @@ class MusicCard extends Component {
   render() {
     const { music: { trackId, trackName, previewUrl }, clickBtn } = this.props;
     const { isLoading, musicsFavorite } = this.state;
+
     return (
       <div>
         {
           isLoading && <LoadScreen />
         }
+
         <p>{trackName}</p>
+
         <audio data-testid="audio-component" src={ previewUrl } controls>
           <track kind="captions" />
           O seu navegador não suporta o elemento
@@ -47,6 +50,7 @@ class MusicCard extends Component {
           <code>audio</code>
           .
         </audio>
+
         <label htmlFor="favorite">
           <input
             type="checkbox"
@@ -59,6 +63,7 @@ class MusicCard extends Component {
           />
           Favorita
         </label>
+
       </div>
     );
   }

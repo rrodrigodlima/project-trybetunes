@@ -4,7 +4,6 @@ class LoadScreen extends Component {
   render() {
     return (
       <div>
-
         <p>Carregando...</p>
       </div>
     );

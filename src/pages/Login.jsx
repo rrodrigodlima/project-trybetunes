@@ -46,6 +46,7 @@ class Login extends Component {
     }
 
     return (
+
       <div data-testid="page-login">
         Login
         <form>

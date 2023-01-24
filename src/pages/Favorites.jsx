@@ -24,9 +24,12 @@ class Favorites extends Component {
   render() {
     const { musics, isLoading } = this.state;
     return (
+
       <div data-testid="page-favorites">
+
         <Header />
         <div>
+
           {isLoading ? <LoadScreen /> : null}
           {
             musics && !isLoading ? (
@@ -41,6 +44,7 @@ class Favorites extends Component {
               ))
             ) : null
           }
+
         </div>
       </div>
     );

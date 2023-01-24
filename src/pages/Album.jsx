@@ -33,10 +33,13 @@ class Album extends Component {
     const { name, album, musics, musicsFavorite } = this.state;
 
     return (
+
       <div data-testid="page-album">
+
         <Header />
         <h1 data-testid="artist-name">{name}</h1>
         <h2 data-testid="album-name">{album}</h2>
+
         {
           musics.map((music) => (
             <MusicCard

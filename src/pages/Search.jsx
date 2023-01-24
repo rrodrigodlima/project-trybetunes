@@ -83,15 +83,17 @@ class Search extends Component {
           </button>
 
         </form>
+
         <h1>{ title }</h1>
+
         {
           arraySearch
             .map((album, index) => (<CardAlbum
               collectionSave={ album }
               key={ index }
             />))
-
         }
+
       </div>
     );
   }
